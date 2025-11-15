@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics Dashboard</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">SecureMail Training</div>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger">&#9776;</label>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Login Simulation</a></li>
+        <li><a href="awareness.html">Awareness</a></li>
+        <li><a href="redflags.html">Red Flag Game</a></li>
+        <li><a href="fakeurl.html">Fake URL Demo</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<h1 class="title">📊 Training Analytics Dashboard</h1>
+<p class="summary">Live statistics about user interactions during the phishing simulation.</p>
+
+<!-- Click Counter -->
+<div class="stat-box">
+    <h2>Total Simulation Clicks:</h2>
+    <p id="clickCounter" class="big-number">Loading...</p>
+</div>
+
+<!-- Charts -->
+<div class="chart-container">
+    <canvas id="pieChart"></canvas>
+</div>
+
+<div class="chart-container">
+    <canvas id="barChart"></canvas>
+</div>
+
+
+<script>
+// Fetch click count
+fetch("https://api.countapi.xyz/get/securemail/training")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("clickCounter").innerText = data.value;
+    });
+
+// Dummy Data
+const pieData = {
+    labels: ["Clicked Email", "Ignored Email"],
+    datasets: [{
+        data: [12, 8],
+        backgroundColor: ["#0ac5a8", "#ff4d4d"]
+    }]
+};
+
+new Chart(document.getElementById("pieChart"), {
+    type: "pie",
+    data: pieData
+});
+
+const barData = {
+    labels: ["Quiz Score Avg", "Users Trained"],
+    datasets: [{
+        label: "Training Metrics",
+        data: [85, 20],
+        backgroundColor: "#0ac5a8"
+    }]
+};
+
+new Chart(document.getElementById("barChart"), {
+    type: "bar",
+    data: barData
+});
+</script>
+
+</body>
+</html>
+

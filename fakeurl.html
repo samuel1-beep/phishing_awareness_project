@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake URL Demonstration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">SecureMail Training</div>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger">&#9776;</label>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Login Simulation</a></li>
+        <li><a href="awareness.html">Awareness</a></li>
+        <li><a href="redflags.html">Red Flag Game</a></li>
+        <li><a href="fakeurl.html">Fake URL Demo</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<h1 class="title">🌐 Fake Browser URL Demo</h1>
+<p class="summary">Compare the URL below with the real one — can you spot what's wrong?</p>
+
+<div class="url-preview">
+    <p><strong>Displayed URL:</strong>  
+        <span class="fake-url">https://ggc-portal-login.verify-account-secure.com</span>
+    </p>
+
+    <button id="showReal" class="quiz-btn">Show Real URL</button>
+</div>
+
+<script>
+document.getElementById("showReal").addEventListener("click", () => {
+    Swal.fire({
+        icon: "info",
+        title: "Real GGC Portal URL",
+        html: "<strong>https://ggc.view.usg.edu</strong>",
+        confirmButtonColor: "#0ac5a8"
+    });
+});
+</script>
+
+</body>
+</html>
+

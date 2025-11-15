@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phishing Awareness Training</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="matrix.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">SecureMail Training</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger">&#9776;</label>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Login</a></li>
+        <li><a href="awareness.html">Awareness</a></li>
+        <li><a href="redflags.html">Red Flags</a></li>
+        <li><a href="fakeurl.html">Fake URL</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<!-- MATRIX BACKGROUND -->
+<canvas id="matrixCanvas"></canvas>
+
+<h1 class="title red">⚠ SYSTEM COMPROMISED</h1>
+<p class="summary">You interacted with a simulated phishing attack. No data was stored.</p>
+
+<button id="glitchBtn" class="glitch-btn">Simulate Virus Overload</button>
+
+<!-- VIRUS OVERLOAD OVERLAY -->
+<div id="virusOverlay">
+    <h2 id="virusHeader">⚠ BREACH DETECTED ⚠</h2>
+
+    <div id="terminalOutput"></div>
+
+    <div id="integrityBox">
+        <div id="integrityFill"></div>
+    </div>
+</div>
+
+<!-- QUIZ -->
+<h2 class="section-title">📝 Awareness Quiz</h2>
+
+<div class="quiz-box">
+
+    <p><strong>1. What is the most common red flag?</strong></p>
+    <input type="radio" name="q1" value="1"> Urgency  
+    <input type="radio" name="q1" value="0"> Friendly greeting<br><br>
+
+    <p><strong>2. Best safe action?</strong></p>
+    <input type="radio" name="q2" value="1"> Verify on official site  
+    <input type="radio" name="q2" value="0"> Reply to suspicious email<br><br>
+
+    <p><strong>3. First thing to check?</strong></p>
+    <input type="radio" name="q3" value="1"> URL address  
+    <input type="radio" name="q3" value="0"> Logo<br><br>
+
+    <button id="submitQuiz" class="quiz-btn">Submit Answers</button>
+    <p id="quizScore" class="quiz-score"></p>
+
+    <button id="certBtn" class="quiz-btn" disabled>Download Certificate</button>
+    <p class="cert-note">Score at least 2/3 to unlock your certificate.</p>
+</div>
+
+<h2 class="section-title">🕹 Interactive Tools</h2>
+<ul class="resource-list">
+    <li><a href="redflags.html">Red Flag Game</a></li>
+    <li><a href="fakeurl.html">Fake URL Demo</a></li>
+    <li><a href="dashboard.html">Analytics Dashboard</a></li>
+</ul>
+
+<script src="awareness.js"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,445 @@
+/* =========================================
+   GLOBAL CYBER THEME
+========================================= */
+
+body {
+    background: radial-gradient(circle at center, #0b0b0b, #000000);
+    color: #e3fdfc;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    animation: bgPulse 7s infinite alternate ease-in-out;
+}
+
+@keyframes bgPulse {
+    0% { background-color: #000000; }
+    50% { background-color: #0c0c0c; }
+    100% { background-color: #000000; }
+}
+
+h1, h2, h3 {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+a {
+    color: #00f2ff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #0ac5a8;
+    text-shadow: 0 0 10px #0ac5a8;
+}
+
+
+
+/* =========================================
+   NAVIGATION BAR
+========================================= */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #081217;
+    padding: 14px 26px;
+    border-bottom: 1px solid #0ac5a8;
+    box-shadow: 0 0 10px #0ac5a8 inset;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-logo {
+    color: #00f2ff;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.hamburger {
+    display: none;
+    font-size: 30px;
+    color: #0ac5a8;
+    cursor: pointer;
+}
+
+.nav-toggle { display: none; }
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+}
+
+.nav-links li a {
+    font-weight: bold;
+    color: #ccffff;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.nav-links li a:hover {
+    background: rgba(0,255,255,0.15);
+    color: #00f2ff;
+    box-shadow: 0 0 12px #00f2ff;
+}
+
+
+/* MOBILE NAV */
+@media (max-width: 770px) {
+    .hamburger { display: block; }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 63px;
+        right: 0;
+        background: #081217;
+        width: 230px;
+        flex-direction: column;
+        border-left: 1px solid #0ac5a8;
+        border-bottom: 1px solid #0ac5a8;
+    }
+
+    .nav-links li {
+        border-bottom: 1px solid #062621;
+        padding: 14px;
+    }
+
+    .nav-toggle:checked + .hamburger + .nav-links {
+        display: flex;
+    }
+}
+
+
+
+/* =========================================
+   LOGIN BOX
+========================================= */
+
+.login-container {
+    width: 360px;
+    margin: 100px auto;
+    background: rgba(0,255,255,0.05);
+    border: 1px solid #0ac5a8;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 0 20px #00f2ff40;
+    backdrop-filter: blur(6px);
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #0ac5a8;
+    background: #091416;
+    color: #00f2ff;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    box-shadow: 0 0 10px #00f2ff;
+}
+
+.login-btn, .quiz-btn, .glitch-btn {
+    width: 92%;
+    padding: 12px;
+    background: #0ac5a8;
+    border: none;
+    color: #000;
+    margin-top: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-btn:hover, .quiz-btn:hover, .glitch-btn:hover {
+    background: #0df5ce;
+    box-shadow: 0 0 12px #0df5ce;
+}
+
+
+
+/* =========================================
+   TYPEWRITER EFFECT
+========================================= */
+
+.typewriter {
+    width: 65%;
+    margin: 40px auto;
+    font-size: 1rem;
+    color: #39ff14;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #39ff14;
+    animation: typing 2.5s steps(35) 0.5s forwards, blink .7s infinite;
+}
+
+@keyframes typing { from { width:0 } to { width:65% } }
+
+@keyframes blink { 50% { border-color: transparent } }
+
+
+
+/* =========================================
+   GLITCH EFFECT
+========================================= */
+
+.glitch {
+    animation: screenGlitch 0.25s infinite;
+}
+
+@keyframes screenGlitch {
+    0% { transform: translate(0, 0) }
+    20% { transform: translate(-2px, 2px) }
+    40% { transform: translate(2px, -2px) }
+    60% { transform: translate(-1px, 1px) }
+    80% { transform: translate(1px, -1px) }
+    100% { transform: translate(0, 0) }
+}
+
+
+
+/* =========================================
+   SECTIONS & TITLES
+========================================= */
+
+.section-title {
+    margin-top: 50px;
+    color: #00f2ff;
+    font-size: 28px;
+    text-shadow: 0 0 8px #00f2ff;
+}
+
+.summary {
+    color: #b3f8f3;
+    margin-bottom: 25px;
+}
+
+
+
+.red {
+    color: #ff5050;
+    text-shadow: 0 0 15px #ff5050;
+}
+
+
+
+/* =========================================
+   QUIZ BOX
+========================================= */
+
+.quiz-box {
+    width: 65%;
+    margin: 30px auto;
+    background: rgba(255,255,255,0.06);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #0ac5a8;
+    text-align: left;
+    box-shadow: 0 0 16px #00f2ff25;
+}
+
+.quiz-box input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.quiz-score {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: #00ffbf;
+    text-align: center;
+}
+
+
+
+/* =========================================
+   RESOURCE LISTS
+========================================= */
+
+.resource-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.resource-list li {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.resource-list a {
+    font-weight: bold;
+}
+
+
+
+/* =========================================
+   GAME & DEMO PAGES
+========================================= */
+
+.game-email, .url-preview, .stat-box {
+    width: 70%;
+    margin: 40px auto;
+    background: rgba(0,255,255,0.04);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #0ac5a8;
+    text-align: left;
+    box-shadow: 0 0 12px #00f2ff25;
+}
+
+.fake-url {
+    color: #ff5050;
+    font-weight: bold;
+}
+
+.big-number {
+    font-size: 3rem;
+    color: #00f2ff;
+}
+
+
+
+.chart-container {
+    width: 60%;
+    margin: 30px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    border: 1px solid #0ac5a8;
+    box-shadow: 0 0 12px #00f2ff25;
+}
+/* MATRIX CANVAS */
+#matrixCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* VIRUS OVERLAY */
+#virusOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,0,0,0.15);
+    backdrop-filter: blur(8px);
+    animation: flashRed 0.3s infinite;
+    z-index: 5000;
+    padding-top: 100px;
+    text-align: center;
+}
+
+@keyframes flashRed {
+    0% { background: rgba(255,0,0,0.1); }
+    50% { background: rgba(255,0,0,0.3); }
+    100% { background: rgba(255,0,0,0.1); }
+}
+
+#terminalOutput {
+    width: 70%;
+    margin: auto;
+    height: 250px;
+    background: #000;
+    border: 1px solid red;
+    color: #0aff5d;
+    padding: 20px;
+    font-family: monospace;
+    text-align: left;
+    overflow-y: auto;
+}
+
+#integrityBox {
+    width: 70%;
+    height: 25px;
+    background: #111;
+    margin: 20px auto;
+    border: 1px solid #0aff5d;
+}
+
+#integrityFill {
+    width: 0%;
+    height: 100%;
+    background: #00ff6a;
+    transition: 0.3s;
+}
+/* CERTIFICATE BUTTON DISABLED */
+#certBtn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.cert-note {
+    font-size: 0.85rem;
+    color: #b3f8f3;
+    margin-top: 6px;
+}
+
+
+/* MATRIX CANVAS */
+#matrixCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+
+/* VIRUS OVERLAY */
+#virusOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,0,0,0.15);
+    backdrop-filter: blur(8px);
+    animation: flashRed 0.3s infinite;
+    z-index: 2000;
+    padding-top: 60px;
+    text-align: center;
+}
+
+@keyframes flashRed {
+    0% { background: rgba(255,0,0,0.1); }
+    50% { background: rgba(255,0,0,0.3); }
+    100% { background: rgba(255,0,0,0.1); }
+}
+
+#terminalOutput {
+    width: 70%;
+    margin: auto;
+    height: 250px;
+    background: #000;
+    border: 1px solid red;
+    color: #00ff6a;
+    padding: 20px;
+    font-family: monospace;
+    overflow-y: auto;
+}
+
+#integrityBox {
+    width: 70%;
+    height: 25px;
+    margin: 10px auto;
+    border: 1px solid #00ff6a;
+}
+
+#integrityFill {
+    width: 0%;
+    height: 100%;
+    background: #00ff6a;
+    transition: width 0.3s;
+}

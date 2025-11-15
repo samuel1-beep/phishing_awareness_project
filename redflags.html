@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Red Flag Detection Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">SecureMail Training</div>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger">&#9776;</label>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Login Simulation</a></li>
+        <li><a href="awareness.html">Awareness</a></li>
+        <li><a href="redflags.html">Red Flag Game</a></li>
+        <li><a href="fakeurl.html">Fake URL Demo</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+</nav>
+
+<h1 class="title">🔍 Red Flag Detection Game</h1>
+<p class="summary">Click all the suspicious elements in this fake phishing email!</p>
+
+<div class="game-email">
+    <p><strong>From:</strong> support@gcc-logins.com (Suspicious domain)</p>
+    <p><strong>Subject:</strong> URGENT: Your Student Account Will Be Closed</p>
+
+    <p>Hello student,<br><br>
+        We detected unusual activity in your <strong>GGC Portal</strong>.  
+        Please verify your account immediately to avoid suspension.<br><br>
+
+        <a id="badLink">Click here to verify</a><br><br>
+
+        Thank you,<br>
+        IT Department
+    </p>
+</div>
+
+<button id="resetGame" class="quiz-btn">Reset Game</button>
+
+<script>
+let score = 0;
+
+document.getElementById("badLink").addEventListener("click", () => {
+    score++;
+    Swal.fire({
+        icon: "warning",
+        title: "Suspicious Link!",
+        text: "This URL does not match the real school domain.",
+        confirmButtonColor: "#0ac5a8"
+    });
+});
+
+document.getElementById("resetGame").addEventListener("click", () => {
+    score = 0;
+    Swal.fire({
+        icon: "info",
+        title: "Game Reset",
+        confirmButtonColor: "#0ac5a8"
+    });
+});
+</script>
+
+</body>
+</html>
+
