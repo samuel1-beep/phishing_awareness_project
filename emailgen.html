@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-logo">SecureMail Awareness</div>
@@ -31,6 +32,7 @@
   </p>
 
   <div class="quiz-box">
+
     <label for="scenario"><strong>Select Scenario:</strong></label><br /><br />
     <select id="scenario" style="padding: 8px; width: 80%; max-width: 400px;">
       <option value="it">IT Support — Account Verification</option>
@@ -41,18 +43,17 @@
     </select>
 
     <br /><br />
+
     <button id="generateEmail" class="quiz-btn">Generate Email</button>
     <button id="copyEmail" class="quiz-btn" style="margin-left: 8px;">Copy Email</button>
 
     <br /><br />
 
-    <textarea
-      id="emailOutput"
-      style="width: 100%; height: 260px; font-family: monospace; font-size: 0.9rem;"></textarea>
+    <textarea id="emailOutput" style="width: 100%; height: 260px; font-family: monospace; font-size: 0.9rem;"></textarea>
 
     <p class="cert-note">
-      Note: These emails are for <strong>simulation and awareness only</strong>.  
-      Make sure they are clearly identified as training in real use.
+      Note: These emails are for <strong>simulation and awareness only</strong>. Make sure they are clearly
+      identified as training in real use.
     </p>
   </div>
 
@@ -60,106 +61,103 @@
     const output = document.getElementById("emailOutput");
     const scenarioSelect = document.getElementById("scenario");
 
+    // NEW: Awareness page link
+    const phishingLink = "https://samuel1-beep.github.io/phishing_awareness_project/index.html";
+
     function getTemplate(type) {
-
-      // your phishing simulation link (clean)
-      const phishingLink = "https://samuel1-beep.github.io/phishing_awareness_project/";
-
-      // the hyperlink text version (looks real, not a long URL)
-      const clickable = `Click Here: ${phishingLink}`;
+      const hyperlink = `Click Here: <a href="${phishingLink}">Click Here</a>`;
 
       switch (type) {
 
         case "it":
-          return (
-`Subject: Important: Verify Your School Account
+          return `Subject: Important: Verify Your School Account
 
 Hello,
 
-Our IT security system has detected unusual login activity on your school account.  
+Our IT security system has detected unusual login activity on your school account.
 To avoid suspension, please verify your account information immediately.
 
-${clickable}
+Click the link below to review your account:
+
+Click Here ➜ ${phishingLink}
 
 If you do not verify within 24 hours, your access may be limited.
 
 Thank you,
-IT Support Team (Training Simulation)`
-          );
+IT Support Team (Training Simulation)`;
 
         case "password":
-          return (
-`Subject: Action Required: Password Reset Notice
+          return `Subject: Action Required: Password Reset Notice
 
 Dear User,
 
-Your password has been flagged for a mandatory reset due to a recent security update.  
-Please complete your password reset using the secure link below:
+Your password has been flagged for a mandatory reset due to a recent security update.
 
-${clickable}
+To reset your password now, click the link below:
 
-If you did not request this reset, you may safely ignore this message.
+Click Here ➜ ${phishingLink}
 
-Security Team (Training Simulation)`
-          );
+If this was not requested by you, please ignore this message.
+
+Security Team (Training Simulation)`;
 
         case "bank":
-          return (
-`Subject: Urgent: Suspicious Activity Detected On Your Account
+          return `Subject: Urgent: Suspicious Activity Detected On Your Account
 
 Dear Customer,
 
-We have identified unusual charges on your bank account.  
-For your protection, please verify your identity using the link below:
+We detected unusual activity on your bank account and require immediate verification.
 
-${clickable}
+Please review your account activity using the link below:
 
-If no action is taken within 1 hour, your account may be temporarily locked.
+Click Here ➜ ${phishingLink}
 
-Fraud Prevention Unit (Training Simulation)`
-          );
+If no action is taken, your account may be temporarily suspended.
+
+Fraud Prevention Unit (Training Simulation)`;
 
         case "package":
-          return (
-`Subject: Delivery Failure — Action Needed to Release Your Package
+          return `Subject: Delivery Failure Notice — Action Needed
 
 Hello,
 
-We attempted to deliver a package to your address, but the delivery failed due to missing or incorrect information.  
-Please confirm your details at the link below to reschedule delivery:
+We attempted to deliver a package to your address, but delivery failed due to incomplete information.
 
-${clickable}
+To reschedule your delivery, confirm your details at the link below:
+
+Click Here ➜ ${phishingLink}
 
 Thank you,
-Shipping Department (Training Simulation)`
-          );
+Shipping Department (Training Simulation)`;
 
         case "student":
         default:
-          return (
-`Subject: Student Portal Update — Verify Your Course Enrollment
+          return `Subject: Student Portal Update — Verify Your Enrollment
 
 Dear Student,
 
-A new update has been applied to your student portal, and your enrollment details now require confirmation.  
-Please review your schedule at the link below:
+A new update has been applied to your student portal and your course enrollment needs confirmation.
 
-${clickable}
+Please log in using the link below to verify your schedule:
 
-If you do not confirm your schedule, some courses may be dropped automatically.
+Click Here ➜ ${phishingLink}
 
-Registrar's Office (Training Simulation)`
-          );
+If you do not confirm, some courses may be automatically dropped.
+
+Registrar’s Office (Training Simulation)`;
       }
     }
 
+    // Generate Email
     document.getElementById("generateEmail").addEventListener("click", () => {
       output.value = getTemplate(scenarioSelect.value);
     });
 
+    // Copy Email
     document.getElementById("copyEmail").addEventListener("click", () => {
       output.select();
       document.execCommand("copy");
+
       Swal.fire({
         title: "Copied!",
         text: "The email template has been copied to your clipboard.",
@@ -170,7 +168,7 @@ Registrar's Office (Training Simulation)`
       });
     });
 
-    // Auto-generate one on load
+    // Generate default
     output.value = getTemplate("it");
   </script>
 
