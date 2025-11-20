@@ -29,3 +29,4 @@ function startMatrix() {
 
     setInterval(draw, 33);
 }
+

@@ -1,88 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Phishing Awareness Training</title>
+    <meta charset="UTF-8">
+    <title>Phishing Awareness Simulation</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="matrix.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-logo">SecureMail Training</div>
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
-    <label for="nav-toggle" class="hamburger">&#9776;</label>
+    <!-- MATRIX BACKGROUND -->
+    <canvas id="matrixCanvas"></canvas>
 
-    <ul class="nav-links">
-        <li><a href="index.html">Login</a></li>
-        <li><a href="awareness.html">Awareness</a></li>
-        <li><a href="redflags.html">Red Flags</a></li>
-        <li><a href="fakeurl.html">Fake URL</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-    </ul>
-</nav>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">SecureMail Awareness</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Awareness</a></li>
+            <li><a href="redflags.html">Red Flags</a></li>
+            <li><a href="fakeurl.html">Fake URL</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+    </nav>
 
-<!-- MATRIX BACKGROUND -->
-<canvas id="matrixCanvas"></canvas>
+    <!-- MAIN CONTENT -->
+    <h1 class="title red">⚠ SYSTEM COMPROMISED ⚠</h1>
+    <p class="summary">
+        You interacted with a simulated phishing attack. Below are tools and simulations designed to teach you
+        how phishing works and how to detect it in real life.
+    </p>
 
-<h1 class="title red">⚠ SYSTEM COMPROMISED</h1>
-<p class="summary">You interacted with a simulated phishing attack. No data was stored.</p>
-
-<button id="glitchBtn" class="glitch-btn">Simulate Virus Overload</button>
-
-<!-- VIRUS OVERLOAD OVERLAY -->
-<div id="virusOverlay">
-    <h2 id="virusHeader">⚠ BREACH DETECTED ⚠</h2>
-
-    <div id="terminalOutput"></div>
-
-    <div id="integrityBox">
-        <div id="integrityFill"></div>
+    <!-- ACTION BUTTONS -->
+    <div class="button-section">
+        <button id="glitchBtn" class="main-btn">Simulate Virus Overload</button>
+        <button id="scanBtn" class="main-btn">Run System Scan</button>
+        <button id="badClickBtn" class="main-btn red-btn">Click a Malicious Link</button>
+        <button id="safeClickBtn" class="main-btn green-btn">Click a Safe Link</button>
     </div>
-</div>
 
-<!-- QUIZ -->
-<h2 class="section-title">📝 Awareness Quiz</h2>
+    <!-- VIRUS OVERLOAD OVERLAY -->
+    <div id="virusOverlay" class="overlay">
+        <div class="overlay-box">
+            <h2>⚠ Virus Overload Simulation</h2>
+            <div class="terminal" id="terminalOutput"></div>
+            <div class="integrity-bar">
+                <div id="integrityFill"></div>
+            </div>
+        </div>
+    </div>
 
-<div class="quiz-box">
+    <!-- SYSTEM SCAN OVERLAY -->
+    <div id="scanOverlay" class="overlay">
+        <div class="overlay-box">
+            <h2>🔍 System Scan</h2>
+            <textarea id="scanLog" class="scan-log" readonly></textarea>
+            <div class="scan-bar"><div id="scanBar"></div></div>
+        </div>
+    </div>
 
-    <p><strong>1. What is the most common red flag?</strong></p>
-    <input type="radio" name="q1" value="1"> Urgency  
-    <input type="radio" name="q1" value="0"> Friendly greeting<br><br>
+    <!-- SYSTEM DESTRUCTION OVERLAY -->
+    <div id="destructionOverlay" class="overlay">
+        <div class="overlay-box destruction-box">
+            <h2 id="destructionText">Starting…</h2>
+        </div>
+        <audio id="alertSound" src="alert.mp3"></audio>
+    </div>
 
-    <p><strong>2. Best safe action?</strong></p>
-    <input type="radio" name="q2" value="1"> Verify on official site  
-    <input type="radio" name="q2" value="0"> Reply to suspicious email<br><br>
+    <!-- QUIZ -->
+    <h2 class="section-title">📝 Phishing Awareness Quiz</h2>
+    <div class="quiz-box">
 
-    <p><strong>3. First thing to check?</strong></p>
-    <input type="radio" name="q3" value="1"> URL address  
-    <input type="radio" name="q3" value="0"> Logo<br><br>
+        <p><strong>1. Which of the following is a common phishing red flag?</strong></p>
+        <label><input type="radio" name="q1" value="urgent"> The email creates urgency or fear</label><br>
+        <label><input type="radio" name="q1" value="friendly"> A friendly greeting</label><br>
+        <label><input type="radio" name="q1" value="colorful"> Bright graphics</label><br><br>
 
-    <button id="submitQuiz" class="quiz-btn">Submit Answers</button>
-    <p id="quizScore" class="quiz-score"></p>
+        <p><strong>2. You see this link in an email:</strong><br><code>ggc-account-verify.com</code></p>
+        <label><input type="radio" name="q2" value="verify_official"> Go to the official site manually</label><br>
+        <label><input type="radio" name="q2" value="click_to_see"> Click it to see what happens</label><br>
+        <label><input type="radio" name="q2" value="trust_sender"> Trust it if sender looks real</label><br><br>
 
-    <button id="certBtn" class="quiz-btn" disabled>Download Certificate</button>
-    <p class="cert-note">Score at least 2/3 to unlock your certificate.</p>
-</div>
+        <p><strong>3. A login page looks real but URL is:</strong><br><code>ggc.mail-security-login.net</code></p>
+        <label><input type="radio" name="q3" value="check_url"> Check the URL first</label><br>
+        <label><input type="radio" name="q3" value="check_logo"> Check the logo</label><br>
+        <label><input type="radio" name="q3" value="enter_fake"> Enter fake credentials</label><br><br>
 
-<h2 class="section-title">🕹 Interactive Tools</h2>
-<ul class="resource-list">
-    <li><a href="redflags.html">Red Flag Game</a></li>
-    <li><a href="fakeurl.html">Fake URL Demo</a></li>
-    <li><a href="dashboard.html">Analytics Dashboard</a></li>
-</ul>
+        <button id="submitQuiz" class="quiz-btn">Submit Answers</button>
+        <p id="quizScore" class="quiz-score"></p>
+        <div id="quizResultsTable"></div>
 
-<script src="awareness.js"></script>
+        <button id="certBtn" class="quiz-btn" disabled>Download Certificate</button>
+        <p class="cert-note">Score 2/3 to unlock certificate</p>
+    </div>
+
+    <script src="matrix.js"></script>
+    <script src="awareness.js"></script>
+
 </body>
 </html>
-
 
 

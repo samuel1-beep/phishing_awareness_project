@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phishing Email Template Generator</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">SecureMail Awareness</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <label for="nav-toggle" class="hamburger">&#9776;</label>
+    <ul class="nav-links">
+      <li><a href="index.html">Awareness</a></li>
+      <li><a href="redflags.html">Red Flags</a></li>
+      <li><a href="fakeurl.html">Fake URL Demo</a></li>
+      <li><a href="emailgen.html">Email Generator</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <h1 class="title">📧 Phishing Email Template Generator</h1>
+  <p class="summary">
+    This tool generates <strong>fake but realistic phishing-style emails</strong> for training and awareness.
+    You can copy and paste the email into a training environment.
+  </p>
+
+  <div class="quiz-box">
+    <label for="scenario"><strong>Select Scenario:</strong></label><br /><br />
+    <select id="scenario" style="padding: 8px; width: 80%; max-width: 400px;">
+      <option value="it">IT Support — Account Verification</option>
+      <option value="password">Password Reset Request</option>
+      <option value="bank">Bank Alert — Suspicious Activity</option>
+      <option value="package">Package Delivery Failure Notice</option>
+      <option value="student">Student Portal Update</option>
+    </select>
+
+    <br /><br />
+    <button id="generateEmail" class="quiz-btn">Generate Email</button>
+    <button id="copyEmail" class="quiz-btn" style="margin-left: 8px;">Copy Email</button>
+
+    <br /><br />
+    <textarea id="emailOutput" style="width: 100%; height: 260px; font-family: monospace; font-size: 0.9rem;"></textarea>
+
+    <p class="cert-note">
+      Note: These emails are for <strong>simulation and awareness only</strong>. Make sure they are clearly
+      identified as training in real use.
+    </p>
+  </div>
+
+  <script>
+    const output = document.getElementById("emailOutput");
+    const scenarioSelect = document.getElementById("scenario");
+
+    function getTemplate(type) {
+      const link = "https://samuel1-beep.github.io/phishing_awareness_project/"; // your hosted link
+
+      switch (type) {
+        case "it":
+          return `Subject: Important: Verify Your School Account\n\nHello,\n\nOur IT security system has detected unusual login activity on your school account. To avoid suspension, please verify your account information immediately.\n\nClick the link below to review your account:\n\nClick Here: ${link}\n\nIf you do not verify within 24 hours, your access may be limited.\n\nThank you,\nIT Support Team (Training Simulation)`;
+        case "password":
+          return `Subject: Action Required: Password Reset Notice\n\nDear User,\n\nYour password has been flagged for a mandatory reset due to a recent security policy update.\n\nTo reset your password now, please click the link below:\n\nClick Here: ${link}\n\nIf this was not requested by you, please ignore this message.\n\nSecurity Team (Training Simulation)`;
+        case "bank":
+          return `Subject: Urgent: Suspicious Activity Detected On Your Account\n\nDear Customer,\n\nWe have noticed unusual charges on your bank account. For your protection, we require you to confirm your identity.\n\nPlease log in using the link below to review recent activity:\n\nClick Here: ${link}\n\nIf you do not respond within 1 hour, your account may be temporarily locked.\n\nFraud Prevention Unit (Training Simulation)`;
+        case "package":
+          return `Subject: Delivery Failure: Action Needed to Release Your Package\n\nHello,\n\nWe attempted to deliver a package to your address, but the delivery failed due to incomplete address details.\n\nTo re-schedule your delivery, please confirm your information at the link below:\n\nClick Here: ${link}\n\nThank you,\nShipping Department (Training Simulation)`;
+        case "student":
+        default:
+          return `Subject: Student Portal Update: Verify Your Course Enrollment\n\nDear Student,\n\nA new update has been applied to your student portal and your course enrollment details require confirmation.\n\nPlease log in using the link below to verify that your schedule is correct:\n\nClick Here: ${link}\n\nIf no action is taken, some courses may be dropped automatically.\n\nRegistrar's Office (Training Simulation)`;
+      }
+    }
+
+    document.getElementById("generateEmail").addEventListener("click", () => {
+      const type = scenarioSelect.value;
+      output.value = getTemplate(type);
+    });
+
+    document.getElementById("copyEmail").addEventListener("click", () => {
+      output.select();
+      document.execCommand("copy");
+      Swal.fire({
+        title: "Copied!",
+        text: "The email template has been copied to your clipboard.",
+        icon: "success",
+        background: "#111",
+        color: "#fff",
+        confirmButtonColor: "#0ac5a8",
+      });
+    });
+
+    // Generate one on load
+    output.value = getTemplate("it");
+  </script>
+</body>
+</html>

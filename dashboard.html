@@ -1,92 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Analytics Dashboard</title>
+  <meta charset="UTF-8" />
+  <title>Analytics Dashboard</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-logo">SecureMail Training</div>
-
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">SecureMail Awareness</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
     <label for="nav-toggle" class="hamburger">&#9776;</label>
-
     <ul class="nav-links">
-        <li><a href="index.html">Login Simulation</a></li>
-        <li><a href="awareness.html">Awareness</a></li>
-        <li><a href="redflags.html">Red Flag Game</a></li>
-        <li><a href="fakeurl.html">Fake URL Demo</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="index.html">Awareness</a></li>
+      <li><a href="redflags.html">Red Flags</a></li>
+      <li><a href="fakeurl.html">Fake URL Demo</a></li>
+      <li><a href="emailgen.html">Email Generator</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
     </ul>
-</nav>
+  </nav>
 
-<h1 class="title">📊 Training Analytics Dashboard</h1>
-<p class="summary">Live statistics about user interactions during the phishing simulation.</p>
+  <h1 class="title">📊 Training Analytics Dashboard</h1>
+  <p class="summary">
+    These metrics are stored locally in your browser using <strong>localStorage</strong> to simulate user engagement data.
+  </p>
 
-<!-- Click Counter -->
-<div class="stat-box">
-    <h2>Total Simulation Clicks:</h2>
-    <p id="clickCounter" class="big-number">Loading...</p>
-</div>
+  <div class="quiz-box">
+    <h2>Key Metrics</h2>
+    <p id="metricsText"></p>
+  </div>
 
-<!-- Charts -->
-<div class="chart-container">
+  <div class="chart-container">
     <canvas id="pieChart"></canvas>
-</div>
+  </div>
 
-<div class="chart-container">
+  <div class="chart-container">
     <canvas id="barChart"></canvas>
-</div>
+  </div>
 
+  <script>
+    const clicks = parseInt(localStorage.getItem("pa_totalClicks") || "0", 10);
+    const compromised = parseInt(localStorage.getItem("pa_compromisedCount") || "0", 10);
+    const safe = parseInt(localStorage.getItem("pa_safeCount") || "0", 10);
+    const quizCompletions = parseInt(localStorage.getItem("pa_quizCompletions") || "0", 10);
+    const totalTime = parseInt(localStorage.getItem("pa_totalTimeSeconds") || "0", 10);
 
-<script>
-// Fetch click count
-fetch("https://api.countapi.xyz/get/securemail/training")
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("clickCounter").innerText = data.value;
+    const minutes = (totalTime / 60).toFixed(1);
+
+    const metricsText = `
+    • Total simulated link interactions: ${clicks}
+    • Users who clicked the phishing link (compromised): ${compromised}
+    • Users who ignored the link (safe): ${safe}
+    • Quiz completions: ${quizCompletions}
+    • Total time spent on awareness page: ${minutes} minutes (simulated)
+    `;
+
+    document.getElementById("metricsText").innerText = metricsText;
+
+    // PIE CHART: compromised vs safe
+    const ctxPie = document.getElementById("pieChart").getContext("2d");
+    new Chart(ctxPie, {
+      type: "pie",
+      data: {
+        labels: ["Compromised", "Safe"],
+        datasets: [
+          {
+            data: [compromised, safe],
+            backgroundColor: ["#ff4b4b", "#1fbf7b"],
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: { labels: { color: "#e4faff" } },
+        },
+      },
     });
 
-// Dummy Data
-const pieData = {
-    labels: ["Clicked Email", "Ignored Email"],
-    datasets: [{
-        data: [12, 8],
-        backgroundColor: ["#0ac5a8", "#ff4d4d"]
-    }]
-};
-
-new Chart(document.getElementById("pieChart"), {
-    type: "pie",
-    data: pieData
-});
-
-const barData = {
-    labels: ["Quiz Score Avg", "Users Trained"],
-    datasets: [{
-        label: "Training Metrics",
-        data: [85, 20],
-        backgroundColor: "#0ac5a8"
-    }]
-};
-
-new Chart(document.getElementById("barChart"), {
-    type: "bar",
-    data: barData
-});
-</script>
-
+    // BAR CHART: clicks, quiz, time
+    const ctxBar = document.getElementById("barChart").getContext("2d");
+    new Chart(ctxBar, {
+      type: "bar",
+      data: {
+        labels: ["Total Clicks", "Quiz Completions", "Minutes on Awareness Page"],
+        datasets: [
+          {
+            label: "Engagement Metrics",
+            data: [clicks, quizCompletions, minutes],
+            backgroundColor: "#0ac5a8",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            ticks: { color: "#e4faff" },
+          },
+          y: {
+            ticks: { color: "#e4faff" },
+          },
+        },
+        plugins: {
+          legend: { labels: { color: "#e4faff" } },
+        },
+      },
+    });
+  </script>
 </body>
 </html>
 

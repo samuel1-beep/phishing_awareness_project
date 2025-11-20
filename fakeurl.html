@@ -1,54 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Fake URL Demonstration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Fake URL Demonstration</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-logo">SecureMail Training</div>
-
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <nav class="navbar">
+    <div class="nav-logo">SecureMail Awareness</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
     <label for="nav-toggle" class="hamburger">&#9776;</label>
-
     <ul class="nav-links">
-        <li><a href="index.html">Login Simulation</a></li>
-        <li><a href="awareness.html">Awareness</a></li>
-        <li><a href="redflags.html">Red Flag Game</a></li>
-        <li><a href="fakeurl.html">Fake URL Demo</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="index.html">Awareness</a></li>
+      <li><a href="redflags.html">Red Flags</a></li>
+      <li><a href="fakeurl.html">Fake URL Demo</a></li>
+      <li><a href="emailgen.html">Email Generator</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
     </ul>
-</nav>
+  </nav>
 
-<h1 class="title">🌐 Fake Browser URL Demo</h1>
-<p class="summary">Compare the URL below with the real one — can you spot what's wrong?</p>
+  <canvas id="matrixCanvas"></canvas>
 
-<div class="url-preview">
-    <p><strong>Displayed URL:</strong>  
-        <span class="fake-url">https://ggc-portal-login.verify-account-secure.com</span>
-    </p>
+  <h1 class="title">🌐 Fake URL Demonstration</h1>
+  <p class="summary">
+    Decide whether each URL is <strong>Safe</strong> or a <strong>Phishing attempt</strong>. Then reveal the correct
+    answer and explanation.
+  </p>
 
-    <button id="showReal" class="quiz-btn">Show Real URL</button>
-</div>
+  <div class="game-container url-game">
+    <table class="url-table">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Your Choice</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody id="urlTableBody"></tbody>
+    </table>
 
-<script>
-document.getElementById("showReal").addEventListener("click", () => {
-    Swal.fire({
-        icon: "info",
-        title: "Real GGC Portal URL",
-        html: "<strong>https://ggc.view.usg.edu</strong>",
-        confirmButtonColor: "#0ac5a8"
+    <button id="showResults" class="quiz-btn" style="margin-top: 16px;">Show Correct Answers</button>
+    <p id="urlScore" class="quiz-score"></p>
+  </div>
+
+  <script src="matrix.js"></script>
+  <script>
+    startMatrix();
+
+    const urlData = [
+      {
+        url: "https://ggc.edu/login",
+        correct: "safe",
+        explanation: "Official domain with HTTPS and the correct .edu root.",
+      },
+      {
+        url: "https://ggc-verify-login.com",
+        correct: "phish",
+        explanation: "Extra words around 'ggc' and a .com domain – very common phishing trick.",
+      },
+      {
+        url: "http://bankofamerica.secure-login-update.net",
+        correct: "phish",
+        explanation: "Looks like a bank, but the real domain is before the first / – here it's 'secure-login-update.net'.",
+      },
+      {
+        url: "https://accounts.google.com/signin",
+        correct: "safe",
+        explanation: "Legitimate Google login domain using HTTPS.",
+      },
+      {
+        url: "https://ggc.edu.verify-login-secure.net",
+        correct: "phish",
+        explanation: "Real school domain is not at the end. Attackers put 'ggc.edu' at the front to trick you.",
+      },
+    ];
+
+    const tbody = document.getElementById("urlTableBody");
+    let selections = {};
+
+    urlData.forEach((item, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><code>${item.url}</code></td>
+        <td>
+          <button class="mini-btn" data-index="${index}" data-choice="safe">Safe</button>
+          <button class="mini-btn" data-index="${index}" data-choice="phish">Phishing</button>
+        </td>
+        <td class="result-cell" id="result-${index}">—</td>
+      `;
+      tbody.appendChild(tr);
     });
-});
-</script>
 
+    tbody.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("mini-btn")) return;
+
+      const idx = e.target.getAttribute("data-index");
+      const choice = e.target.getAttribute("data-choice");
+      selections[idx] = choice;
+
+      // highlight selected
+      const btns = e.target.parentElement.querySelectorAll(".mini-btn");
+      btns.forEach(b => b.classList.remove("selected-btn"));
+      e.target.classList.add("selected-btn");
+    });
+
+    document.getElementById("showResults").addEventListener("click", () => {
+      let score = 0;
+
+      urlData.forEach((item, index) => {
+        const cell = document.getElementById(`result-${index}`);
+        const choice = selections[index];
+
+        if (!choice) {
+          cell.textContent = "No answer selected";
+          cell.className = "result-cell";
+          return;
+        }
+
+        if (choice === item.correct) {
+          score++;
+          cell.textContent = `Correct – ${item.explanation}`;
+          cell.className = "result-cell correct";
+        } else {
+          cell.textContent = `Incorrect – ${item.explanation}`;
+          cell.className = "result-cell incorrect";
+        }
+      });
+
+      document.getElementById("urlScore").textContent = `You identified ${score} out of ${urlData.length} URLs correctly.`;
+    });
+  </script>
 </body>
 </html>
 

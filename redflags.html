@@ -1,76 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Red Flag Detection Game</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Red-Flag Detection Game</title>
 
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="nav-logo">SecureMail Training</div>
-
-    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <nav class="navbar">
+    <div class="nav-logo">SecureMail Awareness</div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
     <label for="nav-toggle" class="hamburger">&#9776;</label>
-
     <ul class="nav-links">
-        <li><a href="index.html">Login Simulation</a></li>
-        <li><a href="awareness.html">Awareness</a></li>
-        <li><a href="redflags.html">Red Flag Game</a></li>
-        <li><a href="fakeurl.html">Fake URL Demo</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="index.html">Awareness</a></li>
+      <li><a href="redflags.html">Red Flags</a></li>
+      <li><a href="fakeurl.html">Fake URL Demo</a></li>
+      <li><a href="emailgen.html">Email Generator</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
     </ul>
-</nav>
+  </nav>
 
-<h1 class="title">🔍 Red Flag Detection Game</h1>
-<p class="summary">Click all the suspicious elements in this fake phishing email!</p>
+  <canvas id="matrixCanvas"></canvas>
 
-<div class="game-email">
-    <p><strong>From:</strong> support@gcc-logins.com (Suspicious domain)</p>
-    <p><strong>Subject:</strong> URGENT: Your Student Account Will Be Closed</p>
+  <h1 class="title">🕵️‍♂️ Red-Flag Detection Game</h1>
+  <p class="summary">
+    Click on all the parts of this email that look suspicious. There are multiple red flags hidden inside.
+  </p>
 
-    <p>Hello student,<br><br>
-        We detected unusual activity in your <strong>GGC Portal</strong>.  
-        Please verify your account immediately to avoid suspension.<br><br>
+  <div class="game-container">
+    <div class="email-card">
+      <div class="email-header">
+        <p><strong>From:</strong>
+          <span class="flag clickable" data-correct="true">
+            it-support@security-ggc-login.com
+          </span>
+        </p>
+        <p><strong>To:</strong> student@ggc.edu</p>
+        <p><strong>Subject:</strong>
+          <span class="flag clickable" data-correct="true">
+            URGENT: Password Expires in 15 Minutes – ACT NOW!!!
+          </span>
+        </p>
+      </div>
+      <div class="email-body">
+        <p>Dear Student,</p>
+        <p>
+          Your <span class="flag clickable" data-correct="true">account has been temporarily suspended</span> due to
+          suspicious activity. To restore full access, you must verify your details immediately.
+        </p>
+        <p>
+          Please <span class="flag clickable" data-correct="true">click this secure link</span> to confirm your identity:
+          <br>
+          <span class="flag clickable link-flag" data-correct="true">
+            http://ggc-login-verify.secure-account-update.com
+          </span>
+        </p>
+        <p>
+          Failure to complete this step may result in <span class="flag clickable" data-correct="true">
+            permanent account deactivation
+          </span>.
+        </p>
+        <p>Thank you,<br>IT HelpDesk Team</p>
+        <p class="flag clickable" data-correct="true">
+          Attachment: password_reset_form.zip
+        </p>
+      </div>
+    </div>
 
-        <a id="badLink">Click here to verify</a><br><br>
+    <div class="game-sidebar">
+      <h3>Red-Flag Tracker</h3>
+      <p><span id="foundCount">0</span> / <span id="totalFlags">0</span> red flags found</p>
+      <p id="gameMessage">Click on anything that feels suspicious.</p>
+      <button id="resetGame" class="quiz-btn">Reset Game</button>
+      <button id="showAnswers" class="quiz-btn">Show All Red Flags</button>
+    </div>
+  </div>
 
-        Thank you,<br>
-        IT Department
-    </p>
-</div>
+  <script src="matrix.js"></script>
+  <script>
+    startMatrix();
 
-<button id="resetGame" class="quiz-btn">Reset Game</button>
+    const flags = document.querySelectorAll(".flag.clickable[data-correct='true']");
+    const foundCountEl = document.getElementById("foundCount");
+    const totalFlagsEl = document.getElementById("totalFlags");
+    const gameMsg = document.getElementById("gameMessage");
 
-<script>
-let score = 0;
+    totalFlagsEl.textContent = flags.length;
+    let found = 0;
 
-document.getElementById("badLink").addEventListener("click", () => {
-    score++;
-    Swal.fire({
-        icon: "warning",
-        title: "Suspicious Link!",
-        text: "This URL does not match the real school domain.",
-        confirmButtonColor: "#0ac5a8"
+    flags.forEach(flag => {
+      flag.addEventListener("click", () => {
+        if (!flag.classList.contains("found")) {
+          flag.classList.add("found");
+          found++;
+          foundCountEl.textContent = found;
+
+          if (found === flags.length) {
+            gameMsg.textContent = "Great job! You found all the red flags in this phishing email.";
+          } else {
+            gameMsg.textContent = "Good catch! Keep looking for more suspicious details.";
+          }
+        }
+      });
     });
-});
 
-document.getElementById("resetGame").addEventListener("click", () => {
-    score = 0;
-    Swal.fire({
-        icon: "info",
-        title: "Game Reset",
-        confirmButtonColor: "#0ac5a8"
+    document.getElementById("resetGame").addEventListener("click", () => {
+      flags.forEach(f => f.classList.remove("found", "show"));
+      found = 0;
+      foundCountEl.textContent = "0";
+      gameMsg.textContent = "Click on anything that feels suspicious.";
     });
-});
-</script>
 
+    document.getElementById("showAnswers").addEventListener("click", () => {
+      flags.forEach(f => f.classList.add("show"));
+      gameMsg.textContent = "Highlighted items are common phishing red flags.";
+    });
+  </script>
 </body>
 </html>
+
 
