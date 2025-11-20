@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -44,11 +45,14 @@
     <button id="copyEmail" class="quiz-btn" style="margin-left: 8px;">Copy Email</button>
 
     <br /><br />
-    <textarea id="emailOutput" style="width: 100%; height: 260px; font-family: monospace; font-size: 0.9rem;"></textarea>
+
+    <textarea
+      id="emailOutput"
+      style="width: 100%; height: 260px; font-family: monospace; font-size: 0.9rem;"></textarea>
 
     <p class="cert-note">
-      Note: These emails are for <strong>simulation and awareness only</strong>. Make sure they are clearly
-      identified as training in real use.
+      Note: These emails are for <strong>simulation and awareness only</strong>.  
+      Make sure they are clearly identified as training in real use.
     </p>
   </div>
 
@@ -57,26 +61,100 @@
     const scenarioSelect = document.getElementById("scenario");
 
     function getTemplate(type) {
-      const link = "https://samuel1-beep.github.io/phishing_awareness_project/"; // your hosted link
+
+      // your phishing simulation link (clean)
+      const phishingLink = "https://samuel1-beep.github.io/phishing_awareness_project/";
+
+      // the hyperlink text version (looks real, not a long URL)
+      const clickable = `Click Here: ${phishingLink}`;
 
       switch (type) {
+
         case "it":
-          return `Subject: Important: Verify Your School Account\n\nHello,\n\nOur IT security system has detected unusual login activity on your school account. To avoid suspension, please verify your account information immediately.\n\nClick the link below to review your account:\n\nClick Here: ${link}\n\nIf you do not verify within 24 hours, your access may be limited.\n\nThank you,\nIT Support Team (Training Simulation)`;
+          return (
+`Subject: Important: Verify Your School Account
+
+Hello,
+
+Our IT security system has detected unusual login activity on your school account.  
+To avoid suspension, please verify your account information immediately.
+
+${clickable}
+
+If you do not verify within 24 hours, your access may be limited.
+
+Thank you,
+IT Support Team (Training Simulation)`
+          );
+
         case "password":
-          return `Subject: Action Required: Password Reset Notice\n\nDear User,\n\nYour password has been flagged for a mandatory reset due to a recent security policy update.\n\nTo reset your password now, please click the link below:\n\nClick Here: ${link}\n\nIf this was not requested by you, please ignore this message.\n\nSecurity Team (Training Simulation)`;
+          return (
+`Subject: Action Required: Password Reset Notice
+
+Dear User,
+
+Your password has been flagged for a mandatory reset due to a recent security update.  
+Please complete your password reset using the secure link below:
+
+${clickable}
+
+If you did not request this reset, you may safely ignore this message.
+
+Security Team (Training Simulation)`
+          );
+
         case "bank":
-          return `Subject: Urgent: Suspicious Activity Detected On Your Account\n\nDear Customer,\n\nWe have noticed unusual charges on your bank account. For your protection, we require you to confirm your identity.\n\nPlease log in using the link below to review recent activity:\n\nClick Here: ${link}\n\nIf you do not respond within 1 hour, your account may be temporarily locked.\n\nFraud Prevention Unit (Training Simulation)`;
+          return (
+`Subject: Urgent: Suspicious Activity Detected On Your Account
+
+Dear Customer,
+
+We have identified unusual charges on your bank account.  
+For your protection, please verify your identity using the link below:
+
+${clickable}
+
+If no action is taken within 1 hour, your account may be temporarily locked.
+
+Fraud Prevention Unit (Training Simulation)`
+          );
+
         case "package":
-          return `Subject: Delivery Failure: Action Needed to Release Your Package\n\nHello,\n\nWe attempted to deliver a package to your address, but the delivery failed due to incomplete address details.\n\nTo re-schedule your delivery, please confirm your information at the link below:\n\nClick Here: ${link}\n\nThank you,\nShipping Department (Training Simulation)`;
+          return (
+`Subject: Delivery Failure — Action Needed to Release Your Package
+
+Hello,
+
+We attempted to deliver a package to your address, but the delivery failed due to missing or incorrect information.  
+Please confirm your details at the link below to reschedule delivery:
+
+${clickable}
+
+Thank you,
+Shipping Department (Training Simulation)`
+          );
+
         case "student":
         default:
-          return `Subject: Student Portal Update: Verify Your Course Enrollment\n\nDear Student,\n\nA new update has been applied to your student portal and your course enrollment details require confirmation.\n\nPlease log in using the link below to verify that your schedule is correct:\n\nClick Here: ${link}\n\nIf no action is taken, some courses may be dropped automatically.\n\nRegistrar's Office (Training Simulation)`;
+          return (
+`Subject: Student Portal Update — Verify Your Course Enrollment
+
+Dear Student,
+
+A new update has been applied to your student portal, and your enrollment details now require confirmation.  
+Please review your schedule at the link below:
+
+${clickable}
+
+If you do not confirm your schedule, some courses may be dropped automatically.
+
+Registrar's Office (Training Simulation)`
+          );
       }
     }
 
     document.getElementById("generateEmail").addEventListener("click", () => {
-      const type = scenarioSelect.value;
-      output.value = getTemplate(type);
+      output.value = getTemplate(scenarioSelect.value);
     });
 
     document.getElementById("copyEmail").addEventListener("click", () => {
@@ -92,8 +170,10 @@
       });
     });
 
-    // Generate one on load
+    // Auto-generate one on load
     output.value = getTemplate("it");
   </script>
+
 </body>
 </html>
+
